@@ -1,0 +1,24 @@
+{
+	"name": "react-query-nextjs-pagination-infinite-queries",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev -p 4000",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@material-ui/core": "^4.12.4",
+		"@material-ui/lab": "^4.0.0-alpha.61",
+		"axios": "^0.27.2",
+		"next": "12.1.6",
+		"react": "18.1.0",
+		"react-dom": "18.1.0",
+		"react-query": "^3.39.1"
+	},
+	"devDependencies": {
+		"eslint": "8.17.0",
+		"eslint-config-next": "12.1.6"
+	}
+}
