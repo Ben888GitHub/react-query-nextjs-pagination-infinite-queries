@@ -22,7 +22,7 @@ function PaginationSSR() {
 
 	return (
 		<div>
-			<h1>Pagination SSG</h1>
+			<h1>Pagination SSR</h1>
 			<>
 				<button
 					disabled={page === 1}
