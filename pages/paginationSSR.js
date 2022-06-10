@@ -10,25 +10,46 @@ function PaginationSSR() {
 	const [page, setPage] = useState(parseInt(router.query.page) || 1);
 	const { data, isPreviousData } = useFetchCharacters(page);
 
+	function handlePaginationChange(e) {
+		console.log(e);
+		// setPage(e.target.value);
+		router.push(`paginationSSR/?page=${page}`, undefined, {
+			shallow: true
+		});
+	}
+
 	useEffect(() => {
 		router.query.page &&
-			router.push(`/paginationSSR?page=${page}`, undefined, {
+			router.push(`/paginationSSR?page=${router.query.page}`, undefined, {
 				shallow: true
 			});
-	}, [page]);
+	}, []);
 
 	return (
 		<div>
 			<h1>Pagination SSG</h1>
 			<>
-				<button disabled={page === 1} onClick={() => setPage(page - 1)}>
+				<button
+					disabled={page === 1}
+					onClick={() => {
+						setPage(page - 1);
+						router.push(`paginationSSR/?page=${page - 1}`, undefined, {
+							shallow: true
+						});
+					}}
+				>
 					Previous
 				</button>
 			</>
 			<>
 				<button
 					disabled={!data?.info?.next || isPreviousData}
-					onClick={() => setPage(page + 1)}
+					onClick={() => {
+						setPage(page + 1);
+						router.push(`/paginationSSR?page=${page + 1}`, undefined, {
+							shallow: true
+						});
+					}}
 				>
 					Next
 				</button>
