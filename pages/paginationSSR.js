@@ -10,14 +10,6 @@ function PaginationSSR() {
 	const [page, setPage] = useState(parseInt(router.query.page) || 1);
 	const { data, isPreviousData } = useFetchCharacters(page);
 
-	function handlePaginationChange(e) {
-		console.log(e);
-		// setPage(e.target.value);
-		router.push(`paginationSSR/?page=${page}`, undefined, {
-			shallow: true
-		});
-	}
-
 	useEffect(() => {
 		router.query.page &&
 			router.push(`/paginationSSR?page=${router.query.page}`, undefined, {
@@ -58,13 +50,12 @@ function PaginationSSR() {
 			<div className="grid-container">
 				{data?.results?.map((character) => (
 					<article key={character.id}>
-						<Image
+						<img
 							src={character.image}
 							alt={character.name}
 							height={250}
-							// loading="lazy"
-							width={300}
-							priority
+							loading="lazy"
+							width={'100%'}
 						/>
 
 						<div className="text">
@@ -99,3 +90,13 @@ export const getServerSideProps = async (context) => {
 		}
 	};
 };
+{
+	/* <Image
+							src={character.image}
+							alt={character.name}
+							height={250}
+							loading="eager"
+							width={300}
+							priority
+						/> */
+}
