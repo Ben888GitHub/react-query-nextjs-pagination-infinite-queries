@@ -11,7 +11,7 @@ function PaginationSSR() {
 	const [page, setPage] = useState(parseInt(router.query.page) || 1);
 	const { data, isPreviousData } = useFetchCharacters(page);
 
-	console.log(data);
+	// console.log(data);
 
 	useEffect(() => {
 		router.query.page &&

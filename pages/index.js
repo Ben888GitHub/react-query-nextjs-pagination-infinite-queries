@@ -17,8 +17,12 @@ export default function Home() {
 					React Query Pagination and Infinite Queries with NextJs
 				</h1>
 				<br />
-				<h2>Pagination SSG</h2>
-				<Link href="/paginationSSR">Pagination SSG</Link>
+				<h2>Pagination SSR</h2>
+				<Link href="/paginationSSR">Pagination SSR</Link>
+				<br />
+				<br />
+				<h2>Infinite Queries SSR</h2>
+				<Link href="/infiniteQueriesSSR">Infinite Queries SSR</Link>
 			</main>
 		</div>
 	);
