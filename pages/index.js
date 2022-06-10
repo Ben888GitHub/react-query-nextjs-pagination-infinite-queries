@@ -18,7 +18,7 @@ export default function Home() {
 				</h1>
 				<br />
 				<h2>Pagination SSG</h2>
-				<Link href="/paginationSSG">Pagination SSG</Link>
+				<Link href="/paginationSSR">Pagination SSG</Link>
 			</main>
 		</div>
 	);
