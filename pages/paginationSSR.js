@@ -7,8 +7,11 @@ import { dehydrate, QueryClient } from 'react-query';
 function PaginationSSR() {
 	const router = useRouter();
 
+	const [searchValue, setSearchValue] = useState('');
 	const [page, setPage] = useState(parseInt(router.query.page) || 1);
 	const { data, isPreviousData } = useFetchCharacters(page);
+
+	console.log(data);
 
 	useEffect(() => {
 		router.query.page &&
@@ -46,27 +49,40 @@ function PaginationSSR() {
 					Next
 				</button>
 			</>
-
+			<br />
+			<br />
+			<input
+				type="text"
+				placeholder={`search character `}
+				onChange={(e) => {
+					setSearchValue(e.target.value);
+					console.log(searchValue);
+				}}
+			/>
 			<div className="grid-container">
-				{data?.results?.map((character) => (
-					<article key={character.id}>
-						<img
-							src={character.image}
-							alt={character.name}
-							height={250}
-							loading="lazy"
-							width={'100%'}
-						/>
+				{data?.results
+					?.filter((character) =>
+						character.name.toLowerCase().includes(searchValue)
+					)
+					.map((character) => (
+						<article key={character.id}>
+							<img
+								src={character.image}
+								alt={character.name}
+								height={250}
+								loading="lazy"
+								width={'100%'}
+							/>
 
-						<div className="text">
-							<p>Name: {character.name}</p>
-							<p>Lives in: {character.location.name}</p>
-							<p>Species: {character.species}</p>
-							<i>Id: {character.id} </i>
-							<p>Status: {character.status}</p>
-						</div>
-					</article>
-				))}
+							<div className="text">
+								<p>Name: {character.name}</p>
+								<p>Lives in: {character.location.name}</p>
+								<p>Species: {character.species}</p>
+								<i>Id: {character.id} </i>
+								<p>Status: {character.status}</p>
+							</div>
+						</article>
+					))}
 			</div>
 		</div>
 	);
