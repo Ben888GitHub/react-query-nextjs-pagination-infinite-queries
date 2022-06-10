@@ -66,12 +66,20 @@ function PaginationSSR() {
 					)
 					.map((character) => (
 						<article key={character.id}>
-							<img
+							{/* <img
 								src={character.image}
 								alt={character.name}
 								height={250}
 								loading="lazy"
 								width={'100%'}
+							/> */}
+							<Image
+								src={character.image}
+								alt={character.name}
+								height={250}
+								loading="eager"
+								width={300}
+								priority
 							/>
 
 							<div className="text">
