@@ -1,70 +1,61 @@
-import { Pagination } from '@material-ui/lab';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { useFetchCharacters } from '../hooks/useApi';
+import { useState, useEffect } from 'react';
+import { useFetchCharacters, fetchCharacters } from '../hooks/useApi';
 import { dehydrate, QueryClient } from 'react-query';
-import axios from 'axios';
 
 function PaginationSSR() {
 	const router = useRouter();
 
 	const [page, setPage] = useState(parseInt(router.query.page) || 1);
-	const { data } = useFetchCharacters(page);
+	const { data, isPreviousData } = useFetchCharacters(page);
 
-	const handlePaginationChange = async (e, value) => {
-		// console.log(value);
-		setPage(value);
-		router.push(`/paginationSSR?page=${value}`, undefined, { shallow: true });
-	};
+	useEffect(() => {
+		router.query.page &&
+			router.push(`/paginationSSR?page=${page}`, undefined, {
+				shallow: true
+			});
+	}, [page]);
 
 	return (
 		<div>
 			<h1>Pagination SSG</h1>
+			<>
+				<button disabled={page === 1} onClick={() => setPage(page - 1)}>
+					Previous
+				</button>
+			</>
+			<>
+				<button
+					disabled={!data?.info?.next || isPreviousData}
+					onClick={() => setPage(page + 1)}
+				>
+					Next
+				</button>
+			</>
 
-			<Pagination
-				count={data?.info.pages}
-				variant="outlined"
-				color="primary"
-				className="pagination"
-				page={page}
-				onChange={handlePaginationChange}
-			/>
 			<div className="grid-container">
 				{data?.results?.map((character) => (
 					<article key={character.id}>
-						{/* <Image
+						<Image
 							src={character.image}
 							alt={character.name}
 							height={250}
 							// loading="lazy"
-							width={'100%'}
+							width={300}
 							priority
-						/> */}
-						<img
-							src={character.image}
-							alt={character.name}
-							height={250}
-							loading="lazy"
-							width={'100%'}
 						/>
+
 						<div className="text">
 							<p>Name: {character.name}</p>
 							<p>Lives in: {character.location.name}</p>
 							<p>Species: {character.species}</p>
 							<i>Id: {character.id} </i>
+							<p>Status: {character.status}</p>
 						</div>
 					</article>
 				))}
 			</div>
-			<Pagination
-				count={data?.info.pages}
-				variant="outlined"
-				color="primary"
-				className="pagination"
-				page={page}
-				onChange={handlePaginationChange}
-			/>
 		</div>
 	);
 }
@@ -77,15 +68,9 @@ export const getServerSideProps = async (context) => {
 		page = parseInt(context.query.page);
 	}
 
-	const fetchChars = async () => {
-		const { data } = await axios.get(
-			`https://rickandmortyapi.com/api/character/?page=${page}`
-		);
-		return data;
-	};
 	const queryClient = new QueryClient();
 
-	await queryClient.prefetchQuery(['characters', page], fetchChars);
+	await queryClient.prefetchQuery(['characters', page], fetchCharacters);
 
 	return {
 		props: {
